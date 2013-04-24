@@ -41,13 +41,8 @@ public class GlossaryService {
 	private Logger logger;
 	
 	public GlossaryService() {
-		try {
-			logger =  LoggerFactory.getLogger(this.getClass());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		logger =  LoggerFactory.getLogger(this.getClass());
 	}
-	
 	
 	@Path("/possibleStructure")
 	@PUT
