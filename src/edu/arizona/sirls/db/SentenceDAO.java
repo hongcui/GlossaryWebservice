@@ -21,11 +21,13 @@ public class SentenceDAO extends AbstractDAO {
 	
 	public List<Sentence> getSentences(String tablePrefix) throws Exception {
 		List<Sentence> result = new ArrayList<Sentence>();
+		
+		this.openConnection();
 
 		String sql = "SELECT * FROM " + tablePrefix + "_sentence";
 		PreparedStatement preparedStatement = this.executeSQL(sql);
 		ResultSet resultSet = preparedStatement.getResultSet();
-		while (resultSet.next())
+		while (resultSet.next()) 
 			result.add(new Sentence(resultSet.getInt("sentid"), 
 					resultSet.getString("source"), 
 					resultSet.getString("sentence"),
@@ -36,11 +38,13 @@ public class SentenceDAO extends AbstractDAO {
 					resultSet.getString("modifier"), 
 					resultSet.getString("charsegment")
 					));
-		preparedStatement.close();
+		this.closeConnection();
 		return result;
 	}
 
 	public void setSentences(List<Sentence> sentences, String tablePrefix) throws Exception {
+		this.openConnection();
+		
 		String sql = "DROP TABLE IF EXISTS " + tablePrefix + "_sentence";
 		this.executeSQL(sql).close();
 		
@@ -78,5 +82,6 @@ public class SentenceDAO extends AbstractDAO {
 		
 		sql = "UNLOCK TABLES;";
 		this.executeSQL(sql).close();
+		this.closeConnection();
 	}
 }
